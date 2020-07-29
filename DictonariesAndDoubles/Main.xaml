@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1365,644" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1365,1424" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System.Activities</x:String>
@@ -41,13 +41,106 @@
       <AssemblyReference>System.Xaml</AssemblyReference>
       <AssemblyReference>UiPath.System.Activities</AssemblyReference>
       <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="200,83" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Sequence - 딕셔너리 컬렉션을 이용한 무게 계산" sap:VirtualizedContainerService.HintSize="744,1259" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="scg:Dictionary(x:String, scg:Dictionary(x:String, x:Double))" Name="Senders">
+        <Variable.Default>
+          <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, scg:Dictionary(x:String, x:Double))" ExpressionText="New Dictionary(Of String,Dictionary(Of String, Double)) From {&#xD;&#xA;{&quot;John C&quot;, New Dictionary(Of String, Double) From {{&quot;Madrid&quot;, 2.1}, {&quot;Paris&quot;, 1.1}}    },&#xD;&#xA;{&quot;Sarah C&quot;, New Dictionary(Of String, Double) From {{&quot;New York&quot;, 2.1}, {&quot;Paris&quot;, 3.3}, {&quot;Berlin&quot;, 0.8}}  },&#xD;&#xA;{&quot;Johnny B&quot;, New Dictionary(Of String, Double) From {{&quot;New York&quot;, 2.1}, {&quot;Paris&quot;, 3.3}, {&quot;Cairo&quot;, 1.3}, {&quot;Chicago&quot;, 1.9}} } }" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Double)" Name="Cities">
+        <Variable.Default>
+          <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Double)" ExpressionText="new Dictionary(Of string, double)" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:String" Name="ChosenCity" />
+    </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
+    <ui:ForEach x:TypeArguments="scg:Dictionary(x:String, x:Double)" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="702,739" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[Senders.Values]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="scg:Dictionary(x:String, x:Double)">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="scg:Dictionary(x:String, x:Double)" Name="CityList" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="666,604" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="CityList의 key(도시명)을 City에 집어넣고 돌림" sap:VirtualizedContainerService.HintSize="624,512" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[CityList.Keys]">
+              <ui:ForEach.Body>
+                <ActivityAction x:TypeArguments="x:String">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="x:String" Name="City" />
+                  </ActivityAction.Argument>
+                  <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="588,377" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <If Condition="[Cities.Keys.Contains(City)]" DisplayName="If - City 가 weighted list에 있는지 확인" sap:VirtualizedContainerService.HintSize="546,285" sap2010:WorkflowViewState.IdRef="If_1">
+                      <If.Then>
+                        <Assign DisplayName="City명이 일치하면 Citie(string, double)에 += Citylist(도시명)을 함" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Double">[Cities(City)]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Double">[Cities(City) + CityList(city)]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </If.Then>
+                      <If.Else>
+                        <InvokeMethod DisplayName="Invoke Method" sap:VirtualizedContainerService.HintSize="239,135" sap2010:WorkflowViewState.IdRef="InvokeMethod_1" MethodName="Add">
+                          <InvokeMethod.TargetObject>
+                            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Double)">[Cities]</InArgument>
+                          </InvokeMethod.TargetObject>
+                          <InArgument x:TypeArguments="x:String">
+                            <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="City" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:Double">
+                            <mva:VisualBasicValue x:TypeArguments="x:Double" ExpressionText="CityList.Item(City)" />
+                          </InArgument>
+                        </InvokeMethod>
+                      </If.Else>
+                    </If>
+                  </Sequence>
+                </ActivityAction>
+              </ui:ForEach.Body>
+            </ui:ForEach>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <ui:InputDialog sap2010:Annotation.AnnotationText="options에 cities.keys를 toarray로 해서 validation list를 줌" DisplayName="Input Dialog (도시이름 선택)" sap:VirtualizedContainerService.HintSize="702,136" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Label="City" Options="[Cities.Keys.ToArray]" Title="도시 이름을 입력해 주세요">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[ChosenCity]</OutArgument>
+      </ui:InputDialog.Result>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:InputDialog>
+    <If Condition="[ChosenCity IsNot Nothing]" sap:VirtualizedContainerService.HintSize="702,212" sap2010:WorkflowViewState.IdRef="If_2">
+      <If.Then>
+        <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="232,62" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="[string.Format(&quot;The combined weight for {0} is {1:0.##}&quot;, ChosenCity, Cities(ChosenCity))]" />
+      </If.Then>
+      <If.Else>
+        <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="232,62" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="입력값이 없습니다." />
+      </If.Else>
+    </If>
   </Sequence>
 </Activity>
